@@ -269,8 +269,6 @@
     <p class="subtitle">Here's the perfect date we just planned:</p>
     <div class="summary-list" id="summary-list"></div>
     <p id="auto-save-status" style="color:#b48ab0; font-size:0.9em; min-height:1.2em;"></p>
-    <button class="btn-continue enabled" onclick="shareAnswers()">Send My Answers 💌</button>
-    <p id="share-status" style="color:#b48ab0; font-size:0.9em; min-height:1.2em; margin-top:12px;"></p>
     <p class="subtitle" style="margin-bottom:0;">Can't wait! 😘</p>
   </div>
 </div>
@@ -457,38 +455,9 @@ async function autoSaveAnswers() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(selections),
     });
-    if (res.ok) statusEl.textContent = "✓ Sent to him";
+    if (res.ok) statusEl.textContent = "✓ Sent!";
   } catch (e) {
-    // silent - the Send My Answers button still works as a backup
-  }
-}
-
-function buildSummaryText() {
-  let text = "Our Perfect Date 💕\n";
-  genericSteps.forEach(cfg => {
-    const val = selections[cfg.key];
-    const display = Array.isArray(val) ? val.join(', ') : val;
-    text += `${summaryLabels[cfg.key]}: ${display}\n`;
-  });
-  return text;
-}
-
-async function shareAnswers() {
-  const text = buildSummaryText();
-  const statusEl = document.getElementById('share-status');
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: "Our Perfect Date 💕", text });
-      return;
-    } catch (e) {
-      if (e.name === 'AbortError') return;
-    }
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-    statusEl.textContent = "Copied! Paste it into your chat with him 💬";
-  } catch (e) {
-    statusEl.textContent = "Couldn't copy automatically — select the text above manually.";
+    // silent - answers just won't auto-save this time
   }
 }
 
