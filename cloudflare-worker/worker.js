@@ -9,6 +9,9 @@ const LABELS = {
   drink: 'Drinks',
   flowers: 'Flowers',
   chocolate: 'Chocolate',
+  movie: 'Movie?',
+  candy: 'Candy?',
+  temp: 'Cold or hot?',
 };
 
 function corsHeaders() {
