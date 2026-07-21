@@ -268,6 +268,8 @@
     <h1>It's a date! 🎉💕</h1>
     <p class="subtitle">Here's the perfect date we just planned:</p>
     <div class="summary-list" id="summary-list"></div>
+    <button class="btn-continue enabled" onclick="shareAnswers()">Send My Answers 💌</button>
+    <p id="share-status" style="color:#b48ab0; font-size:0.9em; min-height:1.2em; margin-top:12px;"></p>
     <p class="subtitle" style="margin-bottom:0;">Can't wait! 😘</p>
   </div>
 </div>
@@ -281,7 +283,7 @@ function goStep(id) {
   updateProgress(id);
 }
 
-const stepOrder = ['ask','confirm1','confirm1b','confirm1c','confirm2','when','time','where','activity','food','drink','summary'];
+const stepOrder = ['ask','confirm1','confirm1b','confirm1c','confirm2','when','time','where','activity','food','drink','flowers','chocolate','summary'];
 function updateProgress(id) {
   const idx = stepOrder.indexOf(id);
   const pct = Math.round((idx / (stepOrder.length - 1)) * 100);
@@ -325,14 +327,14 @@ const genericSteps = [
   },
   {
     key: 'where', title: "Where should we go? 📍",
-    subtitle: "Pick as many as you like.",
-    options: ["Beach walk", "Park picnic", "Fancy restaurant", "Cozy cafe", "Movie night", "Arcade", "Amusement park", "Stargazing"],
+    subtitle: "It's Bahrain hot outside, so let's stay cool 😅",
+    options: ["Mall (AC heaven) 🛍️", "Pool day 🏊", "Beach (evening only) 🌅", "Waterpark 💦", "Cinema 🎬", "Cozy indoor cafe ☕", "Fancy restaurant 🍽️", "Rooftop stargazing 🌌"],
     allowCustom: true, customPlaceholder: "Or suggest your own spot...", multi: true
   },
   {
     key: 'activity', title: "What should we do together? 🎮",
     subtitle: "Let's make it fun.",
-    options: ["Board games", "Mini golf", "Bowling", "Karaoke", "Video games", "Truth or dare", "Puzzle", "Dancing"],
+    options: ["Ice cream + drive around 🍦🚗", "Board games", "Bowling", "Karaoke", "Arcade", "Video games", "Truth or dare", "Puzzle", "Dancing"],
     allowCustom: true, customPlaceholder: "Or your own idea...", multi: true
   },
   {
@@ -343,9 +345,21 @@ const genericSteps = [
   },
   {
     key: 'drink', title: "What do you want to drink? 🥤",
-    subtitle: "Last question, promise.",
+    subtitle: "Something to sip on.",
     options: ["Coffee", "Boba", "Milkshake", "Smoothie", "Wine", "Juice"],
     allowCustom: true, customPlaceholder: "Or your own pick...", multi: true
+  },
+  {
+    key: 'flowers', title: "What flowers make you smile? 🌷",
+    subtitle: "Just so I know what to bring.",
+    options: ["Roses 🌹", "Tulips 🌷", "Sunflowers 🌻", "Lilies", "Orchids", "Daisies 🌼"],
+    allowCustom: true, customPlaceholder: "Or your favorite flower...", multi: true
+  },
+  {
+    key: 'chocolate', title: "And what chocolate do you like? 🍫",
+    subtitle: "Last question, promise!",
+    options: ["Dark chocolate 🍫", "Milk chocolate", "White chocolate", "Truffles", "Chocolate with nuts 🌰", "Caramel filled"],
+    allowCustom: true, customPlaceholder: "Or your own favorite...", multi: true
   },
 ];
 
@@ -412,21 +426,51 @@ function nextGeneric() {
   }
 }
 
+const summaryLabels = { when: 'When', time: 'Time', where: 'Where', activity: 'Activities', food: 'Food', drink: 'Drinks', flowers: 'Flowers', chocolate: 'Chocolate' };
+
 function showSummary() {
   const list = document.getElementById('summary-list');
-  const labels = { when: 'When', time: 'Time', where: 'Where', activity: 'Activities', food: 'Food', drink: 'Drinks' };
   list.innerHTML = '';
   genericSteps.forEach(cfg => {
     const val = selections[cfg.key];
     const display = Array.isArray(val) ? val.join(', ') : val;
     const row = document.createElement('div');
     row.className = 'summary-row';
-    row.innerHTML = `<span class="summary-label">${labels[cfg.key]}</span><span class="summary-value">${display}</span>`;
+    row.innerHTML = `<span class="summary-label">${summaryLabels[cfg.key]}</span><span class="summary-value">${display}</span>`;
     list.appendChild(row);
   });
   goStep('summary');
   updateProgress('summary');
   launchConfetti();
+}
+
+function buildSummaryText() {
+  let text = "Our Perfect Date 💕\n";
+  genericSteps.forEach(cfg => {
+    const val = selections[cfg.key];
+    const display = Array.isArray(val) ? val.join(', ') : val;
+    text += `${summaryLabels[cfg.key]}: ${display}\n`;
+  });
+  return text;
+}
+
+async function shareAnswers() {
+  const text = buildSummaryText();
+  const statusEl = document.getElementById('share-status');
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "Our Perfect Date 💕", text });
+      return;
+    } catch (e) {
+      if (e.name === 'AbortError') return;
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    statusEl.textContent = "Copied! Paste it into your chat with him 💬";
+  } catch (e) {
+    statusEl.textContent = "Couldn't copy automatically — select the text above manually.";
+  }
 }
 
 document.getElementById('step-confirm2').querySelector('.btn-yes').onclick = () => {
