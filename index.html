@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Go On A Date With Me? 💕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff6f91;
+    --pink-dark: #e8547a;
+    --purple: #a06cd5;
+    --cream: #fff5f7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #ffe8d6 50%, #e0d6ff);
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .heart {
+    position: absolute;
+    bottom: -10%;
+    font-size: 22px;
+    opacity: 0.55;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+  .app {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+  }
+  .progress-track {
+    height: 8px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .card {
+    background: #fff;
+    border-radius: 28px;
+    padding: 36px 28px;
+    box-shadow: 0 20px 50px rgba(200, 100, 150, 0.25);
+    text-align: center;
+    animation: pop 0.35s ease;
+  }
+  .card.hidden { display: none; }
+  @keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  h1, h2 {
+    font-family: 'Baloo 2', sans-serif;
+    color: var(--pink-dark);
+    margin: 0 0 10px;
+    font-size: 1.6em;
+  }
+  p.subtitle {
+    color: #7a5c6a;
+    margin: 0 0 26px;
+    font-size: 1.05em;
+    line-height: 1.4;
+  }
+  .btn-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    min-height: 60px;
+  }
+  button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.05em;
+    border: none;
+    border-radius: 18px;
+    padding: 14px 26px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button:active { transform: scale(0.96); }
+  .btn-yes {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    box-shadow: 0 8px 20px rgba(230, 90, 140, 0.4);
+  }
+  .btn-yes:hover { transform: translateY(-2px) scale(1.03); }
+  .btn-no {
+    background: #f1eef5;
+    color: #9a8ba3;
+    position: relative;
+  }
+  #no-caption {
+    margin-top: 14px;
+    color: #b48ab0;
+    font-size: 0.9em;
+    min-height: 1.2em;
+  }
+  .chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+  .chip {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 2px solid #f0d6e0;
+    background: var(--cream);
+    color: #9a5c74;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .chip:hover { border-color: var(--pink); }
+  .chip.selected {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    border-color: transparent;
+  }
+  .custom-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 2px solid #f0d6e0;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1em;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  .custom-input:focus { border-color: var(--pink); }
+  .btn-continue {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(230, 90, 140, 0.35);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .btn-continue.enabled { opacity: 1; pointer-events: auto; }
+  .summary-list {
+    text-align: left;
+    background: var(--cream);
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+  }
+  .summary-row { margin-bottom: 12px; }
+  .summary-row:last-child { margin-bottom: 0; }
+  .summary-label {
+    display: block;
+    font-weight: 700;
+    color: var(--pink-dark);
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .summary-value { color: #5c4552; }
+  .confetti {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: fall linear forwards;
+    z-index: 5;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(600deg); opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<div class="app">
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <div class="card" id="step-ask">
+    <h1>Hey... I have a question 👀</h1>
+    <p class="subtitle">Do you want to go on a date with me?</p>
+    <div class="btn-row">
+      <button class="btn-yes" id="ask-yes" onclick="goStep('confirm1')">Yes 😍</button>
+      <button class="btn-no" id="ask-no">No</button>
+    </div>
+    <div id="no-caption"></div>
+  </div>
+
+  <div class="card hidden" id="step-confirm1">
+    <h1>Wait, are you sure? 🤔</h1>
+    <p class="subtitle">Because I already told my mom you said yes.</p>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="goStep('confirm2')">Yes, I'm sure 💯</button>
+      <button class="btn-no" onclick="goStep('confirm1b')">Hmm, let me think</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="step-confirm1b">
+    <h1>Ok but like... are you REALLY sure? 😳</h1>
+    <p class="subtitle">I already picked out my nicest hoodie for this.</p>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="goStep('confirm2')">Yes!! 100% 🥹</button>
+      <button class="btn-no" onclick="goStep('confirm1c')">One more chance</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="step-confirm1c">
+    <h1>Last chance to back out 😂</h1>
+    <p class="subtitle">The "no" button broke a while ago, so... just saying.</p>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="goStep('confirm2')">Fine, YES 😩💕</button>
+      <button class="btn-no" style="opacity:0.4; text-decoration: line-through; cursor: not-allowed;" onclick="return false;">No</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="step-confirm2">
+    <h1>Yay!! 🎉</h1>
+    <p class="subtitle">Ok now the fun part — let's build the perfect date together.</p>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="goStep('when')">Let's go! ➡️</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="step-generic">
+    <h2 id="generic-title"></h2>
+    <p class="subtitle" id="generic-subtitle"></p>
+    <div class="chip-grid" id="generic-chips"></div>
+    <input type="text" class="custom-input" id="generic-custom" placeholder="Or type your own idea..." style="display:none;">
+    <button class="btn-continue" id="generic-continue" onclick="nextGeneric()">Continue ➡️</button>
+  </div>
+
+  <div class="card hidden" id="step-summary">
+    <h1>It's a date! 🎉💕</h1>
+    <p class="subtitle">Here's the perfect date we just planned:</p>
+    <div class="summary-list" id="summary-list"></div>
+    <p class="subtitle" style="margin-bottom:0;">Can't wait! 😘</p>
+  </div>
+</div>
+
+<script>
+const state = {};
+
+function goStep(id) {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('step-' + id).classList.remove('hidden');
+  updateProgress(id);
+}
+
+const stepOrder = ['ask','confirm1','confirm1b','confirm1c','confirm2','when','time','where','activity','food','drink','summary'];
+function updateProgress(id) {
+  const idx = stepOrder.indexOf(id);
+  const pct = Math.round((idx / (stepOrder.length - 1)) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+const noCaptions = ["Nice try 😏","Nope!","Not gonna happen 😂","Try again!","The button's shy 🙈","Almost got it!","So close! 😜","Nuh uh.","Keep trying 💅"];
+let noAttempts = 0;
+const noBtn = document.getElementById('ask-no');
+const yesBtn = document.getElementById('ask-yes');
+function dodgeNo() {
+  const row = noBtn.parentElement;
+  const maxX = row.clientWidth - noBtn.offsetWidth;
+  const maxY = 40;
+  const x = Math.random() * maxX - maxX / 2;
+  const y = Math.random() * maxY - maxY / 2;
+  noBtn.style.position = 'relative';
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+  document.getElementById('no-caption').textContent = noCaptions[noAttempts % noCaptions.length];
+  noAttempts++;
+  const scale = Math.min(1 + noAttempts * 0.06, 1.6);
+  yesBtn.style.transform = `scale(${scale})`;
+}
+noBtn.addEventListener('mouseenter', dodgeNo);
+noBtn.addEventListener('click', (e) => { e.preventDefault(); dodgeNo(); });
+noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodgeNo(); });
+
+const genericSteps = [
+  {
+    key: 'when', title: "Perfect! When should this happen? 📅",
+    subtitle: "Pick a day that works for you.",
+    options: ["Today", "Tomorrow", "This weekend", "Next week"],
+    allowCustom: true, customPlaceholder: "Or pick a specific date...", multi: false
+  },
+  {
+    key: 'time', title: "What time works for you? ⏰",
+    subtitle: "Morning person or night owl?",
+    options: ["Morning", "Afternoon", "Evening", "Late night"],
+    allowCustom: true, customPlaceholder: "Or type a specific time...", multi: false
+  },
+  {
+    key: 'where', title: "Where should we go? 📍",
+    subtitle: "Pick as many as you like.",
+    options: ["Beach walk", "Park picnic", "Fancy restaurant", "Cozy cafe", "Movie night", "Arcade", "Amusement park", "Stargazing"],
+    allowCustom: true, customPlaceholder: "Or suggest your own spot...", multi: true
+  },
+  {
+    key: 'activity', title: "What should we do together? 🎮",
+    subtitle: "Let's make it fun.",
+    options: ["Board games", "Mini golf", "Bowling", "Karaoke", "Video games", "Truth or dare", "Puzzle", "Dancing"],
+    allowCustom: true, customPlaceholder: "Or your own idea...", multi: true
+  },
+  {
+    key: 'food', title: "What do you want to eat? 🍽️",
+    subtitle: "Pick your favorites.",
+    options: ["Pizza", "Sushi", "Burgers", "Pasta", "Tacos", "Ice cream", "Just dessert"],
+    allowCustom: true, customPlaceholder: "Or something else...", multi: true
+  },
+  {
+    key: 'drink', title: "What do you want to drink? 🥤",
+    subtitle: "Last question, promise.",
+    options: ["Coffee", "Boba", "Milkshake", "Smoothie", "Wine", "Juice"],
+    allowCustom: true, customPlaceholder: "Or your own pick...", multi: true
+  },
+];
+
+let genericIndex = 0;
+let selections = {};
+
+function renderGeneric() {
+  const cfg = genericSteps[genericIndex];
+  selections[cfg.key] = cfg.multi ? [] : null;
+  document.getElementById('generic-title').textContent = cfg.title;
+  document.getElementById('generic-subtitle').textContent = cfg.subtitle;
+  const chipsEl = document.getElementById('generic-chips');
+  chipsEl.innerHTML = '';
+  cfg.options.forEach(opt => {
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.textContent = opt;
+    chip.onclick = () => toggleChip(chip, opt, cfg.multi);
+    chipsEl.appendChild(chip);
+  });
+  const customInput = document.getElementById('generic-custom');
+  customInput.style.display = cfg.allowCustom ? 'block' : 'none';
+  customInput.placeholder = cfg.customPlaceholder || '';
+  customInput.value = '';
+  customInput.oninput = () => checkContinue(cfg);
+  checkContinue(cfg);
+  goStep('generic');
+  updateProgress(cfg.key);
+}
+
+function toggleChip(chip, value, multi) {
+  const cfg = genericSteps[genericIndex];
+  if (multi) {
+    const i = selections[cfg.key].indexOf(value);
+    if (i === -1) { selections[cfg.key].push(value); chip.classList.add('selected'); }
+    else { selections[cfg.key].splice(i, 1); chip.classList.remove('selected'); }
+  } else {
+    selections[cfg.key] = value;
+    document.querySelectorAll('#generic-chips .chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+  }
+  checkContinue(cfg);
+}
+
+function checkContinue(cfg) {
+  const custom = document.getElementById('generic-custom').value.trim();
+  const hasSelection = cfg.multi ? selections[cfg.key].length > 0 : !!selections[cfg.key];
+  const ok = hasSelection || custom.length > 0;
+  document.getElementById('generic-continue').classList.toggle('enabled', ok);
+}
+
+function nextGeneric() {
+  const cfg = genericSteps[genericIndex];
+  const custom = document.getElementById('generic-custom').value.trim();
+  if (custom) {
+    if (cfg.multi) selections[cfg.key].push(custom);
+    else selections[cfg.key] = custom;
+  }
+  genericIndex++;
+  if (genericIndex < genericSteps.length) {
+    renderGeneric();
+  } else {
+    showSummary();
+  }
+}
+
+function showSummary() {
+  const list = document.getElementById('summary-list');
+  const labels = { when: 'When', time: 'Time', where: 'Where', activity: 'Activities', food: 'Food', drink: 'Drinks' };
+  list.innerHTML = '';
+  genericSteps.forEach(cfg => {
+    const val = selections[cfg.key];
+    const display = Array.isArray(val) ? val.join(', ') : val;
+    const row = document.createElement('div');
+    row.className = 'summary-row';
+    row.innerHTML = `<span class="summary-label">${labels[cfg.key]}</span><span class="summary-value">${display}</span>`;
+    list.appendChild(row);
+  });
+  goStep('summary');
+  updateProgress('summary');
+  launchConfetti();
+}
+
+document.getElementById('step-confirm2').querySelector('.btn-yes').onclick = () => {
+  genericIndex = 0;
+  renderGeneric();
+};
+
+function launchConfetti() {
+  const colors = ['#ff6f91', '#a06cd5', '#ffd166', '#ff9a8b', '#a0e7e5'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('div');
+      piece.className = 'confetti';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
+    }, i * 40);
+  }
+}
+
+function createHearts() {
+  const bg = document.getElementById('hearts-bg');
+  const emojis = ['💕', '💖', '💗', '🩷', '💘'];
+  for (let i = 0; i < 16; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (8 + Math.random() * 10) + 's';
+    h.style.animationDelay = (Math.random() * 10) + 's';
+    h.style.fontSize = (16 + Math.random() * 16) + 'px';
+    bg.appendChild(h);
+  }
+}
+createHearts();
+</script>
+
+</body>
+</html>
