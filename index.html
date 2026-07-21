@@ -223,7 +223,7 @@
 
   <div class="card hidden" id="step-confirm1">
     <h1>Wait, are you sure? 🤔</h1>
-    <p class="subtitle">Because I already told my mom you said yes.</p>
+    <p class="subtitle">🥲.</p>
     <div class="btn-row">
       <button class="btn-yes" onclick="goStep('confirm2')">Yes, I'm sure 💯</button>
       <button class="btn-no" onclick="goStep('confirm1b')">Hmm, let me think</button>
@@ -317,7 +317,7 @@ const genericSteps = [
   {
     key: 'when', title: "Perfect! When should this happen? 📅",
     subtitle: "Pick a day that works for you.",
-    options: ["Today", "Tomorrow", "This weekend", "Next week"],
+    options: ["Tonight", "Tomorrow", "This weekend", "I will travel on saturday"],
     allowCustom: true, customPlaceholder: "Or pick a specific date...", multi: false
   },
   {
@@ -328,54 +328,60 @@ const genericSteps = [
   },
   {
     key: 'where', title: "Where should we go? 📍",
-    subtitle: "It's Bahrain hot outside, so let's stay cool 😅",
-    options: ["Mall (AC heaven) 🛍️", "Pool day 🏊", "Beach (evening only) 🌅", "Waterpark 💦", "Cinema 🎬", "Cozy indoor cafe ☕", "Fancy restaurant 🍽️", "Rooftop stargazing 🌌"],
+    subtitle: "It's Bahrain hot outside, so let's stay cool 😅, or head to the beach?",
+    options: ["Mall (AC heaven) 🛍️", "Pool day 🏊", "Beach 🌅", "Waterpark 💦", "Cinema 🎬", "Cozy indoor cafe ☕", "Fancy restaurant 🍽️", "Rooftop stargazing 🌌", "my bed"],
     allowCustom: true, customPlaceholder: "Or suggest your own spot...", multi: true
   },
   {
     key: 'activity', title: "What should we do together? 🎮",
     subtitle: "Let's make it fun.",
-    options: ["Ice cream + drive around 🍦🚗", "Board games", "Bowling", "Karaoke", "Arcade", "Video games", "Truth or dare", "Puzzle", "Dancing"],
+    options: ["Ice cream + drive around 🍦🚗", "Board games", "Bowling", "Karaoke", "Arcade", "Video games", "Truth or dare", "Puzzle", "Dancing", "Would You Rather", "Have Sex"],
     allowCustom: true, customPlaceholder: "Or your own idea...", multi: true
   },
   {
     key: 'food', title: "What do you want to eat? 🍽️",
     subtitle: "Pick your favorites.",
-    options: ["Pizza", "Sushi", "Burgers", "Pasta", "Tacos", "Ice cream", "Just dessert"],
+    options: ["Pizza", "Sushi", "Burgers", "Pasta", "Tacos", "Ice cream", "Just dessert", "Seafood (im not a fan)"],
     allowCustom: true, customPlaceholder: "Or something else...", multi: true
   },
   {
     key: 'drink', title: "What do you want to drink? 🥤",
     subtitle: "Something to sip on.",
-    options: ["Coffee", "Boba", "Milkshake", "Smoothie", "Wine", "Juice"],
+    options: ["Coffee", "Boba", "Milkshake", "Smoothie", "Alcahol", "Juice"],
     allowCustom: true, customPlaceholder: "Or your own pick...", multi: true
   },
   {
     key: 'flowers', title: "What flowers make you smile? 🌷",
     subtitle: "Just so I know what to bring.",
-    options: ["Roses 🌹", "Tulips 🌷", "Sunflowers 🌻", "Lilies", "Orchids", "Daisies 🌼"],
+    options: ["Roses 🌹", "Tulips 🌷", "Sunflowers 🌻", "Lilies", "Orchids", "Daisies 🌼", "Mix them Up"],
     allowCustom: true, customPlaceholder: "Or your favorite flower...", multi: true
   },
   {
     key: 'chocolate', title: "And what chocolate do you like? 🍫",
     subtitle: "So close to done.",
-    options: ["Dark chocolate 🍫", "Milk chocolate", "White chocolate", "Truffles", "Chocolate with nuts 🌰", "Caramel filled"],
+    options: ["Dark chocolate 🍫", "Milk chocolate", "White chocolate", "Chocolate with nuts 🌰", "Caramel filled"],
     allowCustom: true, customPlaceholder: "Or your own favorite...", multi: true
   },
   {
-    key: 'movie', title: "Wanna watch a movie together? 🎬",
+    key: 'Beef', title: " Would you want it shaved ? 😉",
     subtitle: "Yes or no?",
-    options: ["Yes 🎬", "No"], allowCustom: false, multi: false
+    options: ["Yes 😉", "No 😉"], allowCustom: false, multi: false
   },
   {
-    key: 'candy', title: "Craving some candy? 🍬",
-    subtitle: "Sweet tooth check.",
-    options: ["Yes please 🍬", "No thanks"], allowCustom: false, multi: false
+    key: 'Ball', title: "Would you want it shaved ? 🎾🎾",
+    subtitle: "Your fav.",
+    options: ["Yes please 🎾🎾", "No Please 🎾🎾"], allowCustom: false, multi: false
   },
   {
-    key: 'temp', title: "Cold or hot? 🌡️",
-    subtitle: "Just so I know what to bring.",
-    options: ["Cold ❄️", "Hot 🔥"], allowCustom: false, multi: false
+    key: 'Do you want to feel it?', title: "Do you want us to use protection or go wild? 😝",
+    subtitle: "Just so we know.",
+    options: ["Withouooooooout ", "With please"], allowCustom: false, multi: false
+  },
+
+  {
+    key: 'Should we be naught?', title: "Do it in a car in public 🚙",
+    subtitle: "Just so we know.",
+    options: ["Yesss im wild ", "No book a room"], allowCustom: false, multi: false
   },
 ];
 
