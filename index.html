@@ -284,7 +284,7 @@ function goStep(id) {
   updateProgress(id);
 }
 
-const stepOrder = ['ask','confirm1','confirm1b','confirm1c','confirm2','when','time','where','activity','food','drink','flowers','chocolate','summary'];
+const stepOrder = ['ask','confirm1','confirm1b','confirm1c','confirm2','when','time','where','activity','food','drink','flowers','chocolate','movie','candy','temp','summary'];
 function updateProgress(id) {
   const idx = stepOrder.indexOf(id);
   const pct = Math.round((idx / (stepOrder.length - 1)) * 100);
@@ -358,9 +358,24 @@ const genericSteps = [
   },
   {
     key: 'chocolate', title: "And what chocolate do you like? 🍫",
-    subtitle: "Last question, promise!",
+    subtitle: "So close to done.",
     options: ["Dark chocolate 🍫", "Milk chocolate", "White chocolate", "Truffles", "Chocolate with nuts 🌰", "Caramel filled"],
     allowCustom: true, customPlaceholder: "Or your own favorite...", multi: true
+  },
+  {
+    key: 'movie', title: "Wanna watch a movie together? 🎬",
+    subtitle: "Yes or no?",
+    options: ["Yes 🎬", "No"], allowCustom: false, multi: false
+  },
+  {
+    key: 'candy', title: "Craving some candy? 🍬",
+    subtitle: "Sweet tooth check.",
+    options: ["Yes please 🍬", "No thanks"], allowCustom: false, multi: false
+  },
+  {
+    key: 'temp', title: "Cold or hot? 🌡️",
+    subtitle: "Just so I know what to bring.",
+    options: ["Cold ❄️", "Hot 🔥"], allowCustom: false, multi: false
   },
 ];
 
@@ -427,7 +442,7 @@ function nextGeneric() {
   }
 }
 
-const summaryLabels = { when: 'When', time: 'Time', where: 'Where', activity: 'Activities', food: 'Food', drink: 'Drinks', flowers: 'Flowers', chocolate: 'Chocolate' };
+const summaryLabels = { when: 'When', time: 'Time', where: 'Where', activity: 'Activities', food: 'Food', drink: 'Drinks', flowers: 'Flowers', chocolate: 'Chocolate', movie: 'Movie?', candy: 'Candy?', temp: 'Cold or hot?' };
 
 function showSummary() {
   const list = document.getElementById('summary-list');
